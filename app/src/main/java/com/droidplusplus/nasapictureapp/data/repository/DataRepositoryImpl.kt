@@ -1,4 +1,4 @@
 package com.droidplusplus.nasapictureapp.data.repository
 
-interface DataRepository {
+class DataRepositoryImpl : DataRepository {
 }
