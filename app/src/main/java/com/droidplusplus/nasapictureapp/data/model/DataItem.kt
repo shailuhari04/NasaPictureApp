@@ -1,4 +1,4 @@
-package com.droidplusplus.nasapictureapp.model
+package com.droidplusplus.nasapictureapp.data.model
 
 data class DataItem(
     val copyright: String,

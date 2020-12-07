@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.droidplusplus.nasapictureapp.R
-import com.droidplusplus.nasapictureapp.model.DataItem
+import com.droidplusplus.nasapictureapp.data.model.DataItem
 import kotlinx.android.synthetic.main.image_list_row_item.view.*
 
 class ImageListAdapter :
