@@ -1,5 +1,6 @@
 package com.droidplusplus.nasapictureapp.ui.imagedetail
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.droidplusplus.nasapictureapp.base.BaseActivity
@@ -8,6 +9,9 @@ import com.droidplusplus.nasapictureapp.databinding.ActivityDetailBinding
 import com.droidplusplus.nasapictureapp.ui.MainViewModel
 import com.droidplusplus.nasapictureapp.ui.MainViewModelFactory
 import com.droidplusplus.nasapictureapp.utils.Constants
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class DetailActivity : BaseActivity<ActivityDetailBinding, MainViewModel>() {
 
@@ -27,6 +31,29 @@ class DetailActivity : BaseActivity<ActivityDetailBinding, MainViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(mActivityViewBinding.root)
+
+        initialSetUp()
+
+        loadData()
+    }
+
+    private fun loadData() {
+        // Load data from ViewModel gertResult suspend function
+        GlobalScope.launch(Dispatchers.IO) {
+            mViewModel.getDataResult()
+        }
+    }
+
+    private fun initialSetUp() {
+        // ViewPager2 adapter setUp
+        mViewBinding.imageDetailVP.adapter = mAdapter
+
+        // Observe data from ViewModel
+        mViewModel.mDataResultLiveData.observe(this, { result ->
+            result?.takeIf { it.isNotEmpty() }?.let {
+                mAdapter.submitList(result)
+            }
+        })
     }
 
     override fun getViewBing(): ActivityDetailBinding = mViewBinding
