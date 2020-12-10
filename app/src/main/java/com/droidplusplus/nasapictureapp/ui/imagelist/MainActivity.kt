@@ -3,6 +3,7 @@ package com.droidplusplus.nasapictureapp.ui.imagelist
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.droidplusplus.nasapictureapp.base.BaseActivity
+import com.droidplusplus.nasapictureapp.data.repository.DataRepositoryImpl
 import com.droidplusplus.nasapictureapp.databinding.ActivityMainBinding
 import com.droidplusplus.nasapictureapp.ui.MainViewModel
 import com.droidplusplus.nasapictureapp.ui.MainViewModelFactory
@@ -13,7 +14,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     private val mViewBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
     private val mViewModel by lazy {
-        ViewModelProvider(this, MainViewModelFactory()).get(
+        ViewModelProvider(this, MainViewModelFactory(DataRepositoryImpl(this))).get(
             MainViewModel::class.java
         )
     }
