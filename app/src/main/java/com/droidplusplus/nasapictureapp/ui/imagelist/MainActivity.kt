@@ -9,13 +9,23 @@ import com.droidplusplus.nasapictureapp.ui.MainViewModelFactory
 
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
+    // Delegates
+    private val mViewBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+
+    private val mViewModel by lazy {
+        ViewModelProvider(this, MainViewModelFactory()).get(
+            MainViewModel::class.java
+        )
+    }
+
+    private val mAdapter by lazy { ImageListAdapter() }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(mActivityViewBinding.root)
     }
 
-    override fun getViewBing(): ActivityMainBinding = ActivityMainBinding.inflate(layoutInflater)
+    override fun getViewBing(): ActivityMainBinding = mViewBinding
 
-    override fun getViewModel(): MainViewModel =
-        ViewModelProvider(this, MainViewModelFactory()).get(MainViewModel::class.java)
+    override fun getViewModel(): MainViewModel = mViewModel
 }
