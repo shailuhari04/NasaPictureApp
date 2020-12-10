@@ -7,6 +7,7 @@ import com.droidplusplus.nasapictureapp.data.repository.DataRepositoryImpl
 import com.droidplusplus.nasapictureapp.databinding.ActivityDetailBinding
 import com.droidplusplus.nasapictureapp.ui.MainViewModel
 import com.droidplusplus.nasapictureapp.ui.MainViewModelFactory
+import com.droidplusplus.nasapictureapp.utils.Constants
 
 class DetailActivity : BaseActivity<ActivityDetailBinding, MainViewModel>() {
 
@@ -20,6 +21,8 @@ class DetailActivity : BaseActivity<ActivityDetailBinding, MainViewModel>() {
     }
 
     private val mAdapter by lazy { ImageDetailListAdapter() }
+
+    private val mPosition: Int by lazy { intent.getIntExtra(Constants.ITEM_POSITION, 0) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
