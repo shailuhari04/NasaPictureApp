@@ -9,7 +9,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#838282</color>
     <color name="bg_transparent">#805C5B5B</color>
-    <color name="background_color">#FFFFFFFF</color>
-    <color name="heading_text_color">#FF000000</color>
-    <color name="subheading_text_color">#FF000000</color>
+    <color name="background_color">#FF000000</color>
+    <color name="heading_text_color">#FFFFFFFF</color>
+    <color name="subheading_text_color">#FFFFFFFF</color>
+
 </resources>
