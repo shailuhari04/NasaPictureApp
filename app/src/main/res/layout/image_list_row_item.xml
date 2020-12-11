@@ -5,9 +5,9 @@
     android:id="@+id/rowItemCV"
     android:layout_width="match_parent"
     android:layout_height="240dp"
-    app:cardElevation="8dp"
+    android:layout_margin="5dp"
     app:cardCornerRadius="10dp"
-    android:layout_margin="5dp">
+    app:cardElevation="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -28,11 +28,18 @@
             android:id="@+id/titleTV"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@android:color/darker_gray"
+            android:background="@color/transparent_grey"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="2"
+            android:minLines="2"
+            android:padding="5dp"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:gravity="center"
             tools:text="Image Title" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
