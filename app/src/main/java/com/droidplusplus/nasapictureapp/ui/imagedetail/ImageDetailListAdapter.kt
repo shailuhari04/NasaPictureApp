@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.droidplusplus.nasapictureapp.R
 import com.droidplusplus.nasapictureapp.data.model.DataItem
+import com.droidplusplus.nasapictureapp.utils.gone
+import com.droidplusplus.nasapictureapp.utils.visible
 import kotlinx.android.synthetic.main.image_detail_row_item.view.*
 
 class ImageDetailListAdapter :
@@ -30,15 +32,46 @@ class ImageDetailListAdapter :
     inner class MViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(item: DataItem) = with(itemView) {
-            titleTV.text = item.title
 
-            ivItemImage.load(item.url)
+            // Title
+            titleTV.apply {
+                item.title?.takeIf { it.isNotBlank() }?.let {
+                    text = it
+                    visible()
+                } ?: run { gone() }
+            }
 
-            dateTV.text = item.date
+            // Image
+            ivItemImage.apply {
+                item.url?.takeIf { it.isNotBlank() }?.let {
+                    load(it)
+                    visible()
+                } ?: run { gone() }
+            }
 
-            copyrightTV.text = item.copyright
+            // Date
+            dateTV.apply {
+                item.date?.takeIf { it.isNotBlank() }?.let {
+                    text = "Date: $it"
+                    visible()
+                } ?: run { gone() }
+            }
 
-            explanationTV.text = item.explanation
+            // CopyRight
+            copyrightTV.apply {
+                item.copyright?.takeIf { it.isNotBlank() }?.let {
+                    text = "Copyright: $it"
+                    visible()
+                } ?: run { gone() }
+            }
+
+            // Explanation
+            explanationTV.apply {
+                item.explanation?.takeIf { it.isNotBlank() }?.let {
+                    text = it
+                    visible()
+                } ?: run { gone() }
+            }
         }
     }
 
