@@ -1,6 +1,5 @@
 package com.droidplusplus.nasapictureapp.ui.imagedetail
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.droidplusplus.nasapictureapp.base.BaseActivity
@@ -9,6 +8,7 @@ import com.droidplusplus.nasapictureapp.databinding.ActivityDetailBinding
 import com.droidplusplus.nasapictureapp.ui.MainViewModel
 import com.droidplusplus.nasapictureapp.ui.MainViewModelFactory
 import com.droidplusplus.nasapictureapp.utils.Constants
+import com.droidplusplus.nasapictureapp.utils.DepthPageTransformer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -48,10 +48,14 @@ class DetailActivity : BaseActivity<ActivityDetailBinding, MainViewModel>() {
         // ViewPager2 adapter setUp
         mViewBinding.imageDetailVP.adapter = mAdapter
 
+        mViewBinding.imageDetailVP.setPageTransformer(DepthPageTransformer())
+
         // Observe data from ViewModel
         mViewModel.mDataResultLiveData.observe(this, { result ->
             result?.takeIf { it.isNotEmpty() }?.let {
                 mAdapter.submitList(result)
+                // To avoid animate when viewPager2 selected at certain position for that set smooth scroll to false
+                mViewBinding.imageDetailVP.setCurrentItem(mPosition, false)
             }
         })
     }
