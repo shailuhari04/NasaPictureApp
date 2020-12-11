@@ -1,7 +1,12 @@
 package com.droidplusplus.nasapictureapp.ui.imagedetail
 
+import android.content.res.Configuration
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
+import com.droidplusplus.nasapictureapp.R
 import com.droidplusplus.nasapictureapp.base.BaseActivity
 import com.droidplusplus.nasapictureapp.data.repository.DataRepositoryImpl
 import com.droidplusplus.nasapictureapp.databinding.ActivityDetailBinding
@@ -45,6 +50,10 @@ class DetailActivity : BaseActivity<ActivityDetailBinding, MainViewModel>() {
     }
 
     private fun initialSetUp() {
+        // Toolbar
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+
         // ViewPager2 adapter setUp
         mViewBinding.imageDetailVP.adapter = mAdapter
 
@@ -63,4 +72,37 @@ class DetailActivity : BaseActivity<ActivityDetailBinding, MainViewModel>() {
     override fun getViewBing(): ActivityDetailBinding = mViewBinding
 
     override fun getViewModel(): MainViewModel = mViewModel
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+
+            android.R.id.home -> {
+                onBackPressedDispatcher.onBackPressed()
+                true
+            }
+
+            R.id.action_day_night_mode -> {
+                // Get new mode.
+                val mode =
+                    if ((resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) ==
+                        Configuration.UI_MODE_NIGHT_NO
+                    ) {
+                        AppCompatDelegate.MODE_NIGHT_YES
+                    } else {
+                        AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
+                    }
+
+                // Change UI Mode
+                AppCompatDelegate.setDefaultNightMode(mode)
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 }
