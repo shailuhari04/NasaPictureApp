@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.droidplusplus.nasapictureapp.R
 import com.droidplusplus.nasapictureapp.data.model.DataItem
+import com.droidplusplus.nasapictureapp.utils.gone
+import com.droidplusplus.nasapictureapp.utils.visible
 import kotlinx.android.synthetic.main.image_list_row_item.view.*
 
 class ImageListAdapter :
@@ -32,9 +34,7 @@ class ImageListAdapter :
     }
 
 
-    inner class MViewHolder(
-        itemView: View
-    ) : RecyclerView.ViewHolder(itemView), OnClickListener {
+    inner class MViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), OnClickListener {
 
         init {
             itemView.setOnClickListener(this)
@@ -47,23 +47,31 @@ class ImageListAdapter :
         }
 
         fun bind(item: DataItem) = with(itemView) {
-            titleTV.text = item.title
-            imageIV.load(item.url)
+            // Title
+            titleTV.apply {
+                item.title?.takeIf { it.isNotBlank() }?.let {
+                    text = it
+                    visible()
+                } ?: run { gone() }
+            }
+
+            // Image
+            imageIV.apply {
+                item.url?.takeIf { it.isNotBlank() }?.let {
+                    load(it)
+                    visible()
+                } ?: run { gone() }
+            }
+
         }
     }
 
     private class MDiffUtilCallback : DiffUtil.ItemCallback<DataItem>() {
-        override fun areItemsTheSame(
-            oldItem: DataItem,
-            newItem: DataItem
-        ): Boolean {
+        override fun areItemsTheSame(oldItem: DataItem, newItem: DataItem): Boolean {
             return oldItem.title == newItem.title
         }
 
-        override fun areContentsTheSame(
-            oldItem: DataItem,
-            newItem: DataItem
-        ): Boolean {
+        override fun areContentsTheSame(oldItem: DataItem, newItem: DataItem): Boolean {
             return oldItem == newItem
         }
     }
