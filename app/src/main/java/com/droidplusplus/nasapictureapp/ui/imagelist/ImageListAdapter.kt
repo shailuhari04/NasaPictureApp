@@ -1,5 +1,6 @@
 package com.droidplusplus.nasapictureapp.ui.imagelist
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
@@ -8,6 +9,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.airbnb.lottie.LottieCompositionFactory
+import com.airbnb.lottie.LottieDrawable
 import com.droidplusplus.nasapictureapp.R
 import com.droidplusplus.nasapictureapp.data.model.DataItem
 import com.droidplusplus.nasapictureapp.utils.gone
@@ -20,10 +23,27 @@ class ImageListAdapter :
     // OnItemClickListener to pass the clicked position
     var itemClickListener: (position: Int) -> Unit = {}
 
+    private lateinit var mCtx: Context
+
+    // Delegates Properties
+    private val lottieDrawableInstance by lazy { LottieDrawable() }
+
+    private val lottieDrawable by lazy {
+        if (::mCtx.isInitialized)
+            LottieCompositionFactory.fromAsset(mCtx, "loader1.json")
+                .addListener { lottieCompostion ->
+                    lottieDrawableInstance.composition = lottieCompostion
+                    lottieDrawableInstance.scale = 0.3f
+                    lottieDrawableInstance.playAnimation()
+                    lottieDrawableInstance.repeatCount = LottieDrawable.INFINITE
+                }
+        lottieDrawableInstance
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MViewHolder {
+        mCtx = parent.context // initialize the context
         return MViewHolder(
-            LayoutInflater.from(parent.context)
+            LayoutInflater.from(mCtx)
                 .inflate(R.layout.image_list_row_item, parent, false)
         )
     }
@@ -58,7 +78,10 @@ class ImageListAdapter :
             // Image
             imageIV.apply {
                 item.url?.takeIf { it.isNotBlank() }?.let {
-                    load(it)
+                    load(it) {
+                        placeholder(lottieDrawable)
+                        error(R.drawable.ic_baseline_broken_image_24)
+                    }
                     visible()
                 } ?: run { gone() }
             }
