@@ -23,7 +23,15 @@ class MainViewModel(private val repository: DataRepository) : ViewModel() {
     suspend fun getDataResult() {
         viewModelScope.launch {
             val result = repository.getDataResult()
-            _mDataResultLiveData.postValue(result)
+            result?.let { postResult(it) }
         }
+    }
+
+    /**
+     * @param list
+     * suspend fun which post the result.
+     */
+    suspend fun postResult(list: List<DataItem>) {
+        _mDataResultLiveData.postValue(list)
     }
 }
